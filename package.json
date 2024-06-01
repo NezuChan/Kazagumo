@@ -33,7 +33,8 @@
   ],
   "author": "Takiyo",
   "files": [
-    "dist/**/**/*"
+    "dist/**/**/*",
+    "tsconfig.json"
   ],
   "license": "ISC",
   "devDependencies": {
