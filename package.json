@@ -33,6 +33,7 @@
   ],
   "author": "Takiyo",
   "files": [
+    "src",
     "dist/**/**/*",
     "tsconfig.json"
   ],
