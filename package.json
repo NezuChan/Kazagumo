@@ -17,6 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:full": "npm run lint && npm run format && npm run build:docs && npm run build",
     "build": "tsc",
+    "postinstall": "tsc",
     "format": "prettier --write \"src/**/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "build:docs": "typedoc --readme README.md --out docs/ --entryPointStrategy expand src/."
