@@ -15,8 +15,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:full": "npm run lint && npm run format && npm run build:docs && npm run build",
-    "build": "tsc",
+    "build:full":  "npm run lint && npm run format && npm run build:docs && npm run build",
+    "build": "tsc -p tsconfig.json",
+    "postinstall": "tsc -p tsconfig.json",
     "format": "prettier --write \"src/**/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "build:docs": "typedoc --readme README.md --out docs/ --entryPointStrategy expand src/."
@@ -32,7 +33,9 @@
   ],
   "author": "Takiyo",
   "files": [
-    "dist/**/**/*"
+    "src",
+    "dist/**/**/*",
+    "tsconfig.json"
   ],
   "license": "ISC",
   "devDependencies": {
