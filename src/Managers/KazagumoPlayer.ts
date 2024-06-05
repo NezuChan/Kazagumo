@@ -157,7 +157,7 @@ export class KazagumoPlayer {
       if (!this.queue.length) return this.emit(Events.PlayerEmpty, this);
       this.emit(Events.PlayerEnd, this, this.queue.current);
       this.queue.current = null;
-      return this.play();
+      return this.play().catch((e) => this.emit(Events.Debug, `Player throwed error ${e}`));
     }
 
     if (this.loop === 'track' && this.queue.current) this.queue.unshift(this.queue.current);
@@ -173,7 +173,7 @@ export class KazagumoPlayer {
       return this.emit(Events.PlayerEmpty, this);
     }
 
-    return this.play();
+    return this.play().catch((e) => this.emit(Events.Debug, `Player throwed error ${e}`));
   }
 
   // /**
@@ -206,13 +206,13 @@ export class KazagumoPlayer {
    * @param pause Whether to pause or not
    * @returns KazagumoPlayer
    */
-  public pause(pause: boolean): KazagumoPlayer {
+  public async pause(pause: boolean): Promise<KazagumoPlayer> {
     if (typeof pause !== 'boolean') throw new KazagumoError(1, 'pause must be a boolean');
 
     if (this.paused === pause || !this.queue.totalSize) return this;
     this.paused = pause;
     this.playing = !pause;
-    this.shoukaku.setPaused(pause);
+    await this.shoukaku.setPaused(pause);
 
     return this;
   }
@@ -420,12 +420,12 @@ export class KazagumoPlayer {
    * Disconnect from the voice channel
    * @returns KazagumoPlayer
    */
-  public disconnect(): KazagumoPlayer {
+  public async disconnect(): Promise<KazagumoPlayer> {
     if (this.state === PlayerState.DISCONNECTED || !this.voiceId)
       throw new KazagumoError(1, 'Player is already disconnected');
     this.state = PlayerState.DISCONNECTING;
 
-    this.pause(true);
+    await this.pause(true);
     this.kazagumo.KazagumoOptions.send(this.guildId, {
       op: 4,
       d: {
